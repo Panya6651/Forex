@@ -252,6 +252,8 @@
         <span id="metaPair">คู่เงิน: —</span>
         <span id="metaTf">Timeframe: —</span>
         <span id="metaTime">อัปเดตล่าสุด: —</span>
+        <span id="sessionBadge">Session: —</span>
+        <span id="divergenceBadge" style="display:none;"></span>
       </div>
 
       <div class="chart-wrap">
@@ -301,6 +303,20 @@
       <div class="disclaimer">
         <b>คำเตือน:</b> การวิเคราะห์นี้เป็นการตีความกราฟตามกรอบแนวคิด SMC/ICT โดย AI ซึ่งเป็นเพียงกรอบทฤษฎีหนึ่งในหลายๆ แนวทาง ไม่มีกลยุทธ์ใดมี Win Rate สูงคงที่แน่นอน
         ไม่ใช่คำแนะนำการลงทุน และ AI อาจตีความ Liquidity/FVG/Order Block ผิดพลาดได้ โปรดตรวจสอบด้วยตาตนเองก่อนตัดสินใจเทรดจริงทุกครั้ง
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:20px;">
+      <h3>Confluence — เทียบสัญญาณ Rule-based กับ AI</h3>
+      <div class="help" style="margin-top:0;">
+        เทียบทิศทางของสัญญาณ Rule-based (EMA/RSI/MACD) กับผลวิเคราะห์ AI (SMC/ICT) ล่าสุด — ถ้าทั้งสองเห็นตรงกันแสดงว่ามีหลายมุมมองยืนยันไปทางเดียวกัน (ไม่ใช่การรับประกันผลลัพธ์) ถ้าเห็นต่างกันคือสัญญาณว่าตลาดยังไม่ชัดเจนพอ
+      </div>
+      <div class="signal-card" id="confluenceCard" style="margin-top:12px;">
+        <div class="signal-badge hold" id="confluenceBadge">รอข้อมูล</div>
+        <div class="signal-reasons" id="confluenceReasons">ต้องมีทั้งสัญญาณ Rule-based (กด "เชื่อมต่อ &amp; ดึงข้อมูล") และผล AI (กด "วิเคราะห์ด้วย AI") อย่างน้อยอย่างละ 1 ครั้ง</div>
+      </div>
+      <div class="disclaimer">
+        <b>คำเตือน:</b> Confluence เป็นเพียงการเทียบทิศทางของสัญญาณ 2 ระบบที่มีอยู่แล้วในหน้านี้ ไม่ใช่ระบบใหม่ที่แม่นยำกว่าเดิม และทั้งสองระบบอาจผิดพลาดไปพร้อมกันได้เช่นกัน
       </div>
     </div>
 
@@ -374,6 +390,56 @@
         จำนวนเทรดที่น้อยใน timeframe สูง (เช่น 1 วัน) ทำให้สถิติมีความคลาดเคลื่อนสูง ควรดูจำนวนเทรดประกอบเสมอ ไม่ใช่ดูแค่ win rate/profit factor เพียงอย่างเดียว
       </div>
     </div>
+
+    <div class="panel" style="margin-top:20px;">
+      <h3>Trade Journal — บันทึกสัญญาณอัตโนมัติ</h3>
+      <div class="help" style="margin-top:0;">
+        ทุกครั้งที่สัญญาณ Rule-based เปลี่ยน หรือกดวิเคราะห์ด้วย AI ระบบจะบันทึกไว้ในเบราว์เซอร์ของคุณ (ไม่ส่งไปที่ไหน) เพื่อให้ย้อนกลับมาเช็คภายหลังได้ว่าสัญญาณที่ผ่านมาแม่นแค่ไหนจริงๆ กดปุ่ม Win/Loss ที่แต่ละแถวเพื่อบันทึกผลจริงด้วยตนเอง
+      </div>
+      <div class="indicator-grid" id="journalStatsGrid" style="margin-top:12px;"></div>
+      <div style="overflow-x:auto; margin-top:14px;">
+        <table style="width:100%; border-collapse:collapse; font-size:11.5px;">
+          <thead>
+            <tr style="text-align:left; color:var(--muted); border-bottom:1px solid var(--line);">
+              <th style="padding:8px 6px;">เวลา</th>
+              <th style="padding:8px 6px;">ที่มา</th>
+              <th style="padding:8px 6px;">คู่เงิน</th>
+              <th style="padding:8px 6px;">สัญญาณ</th>
+              <th style="padding:8px 6px;">ราคา</th>
+              <th style="padding:8px 6px;">ผลจริง</th>
+            </tr>
+          </thead>
+          <tbody id="journalTableBody"></tbody>
+        </table>
+      </div>
+      <button class="btn secondary" id="journalClearBtn" style="margin-top:14px;">ล้างบันทึกทั้งหมด</button>
+      <div class="disclaimer">
+        <b>คำเตือน:</b> บันทึกนี้เก็บไว้ในเบราว์เซอร์เครื่องนี้เท่านั้น (localStorage) หากล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนเครื่อง/อุปกรณ์ ข้อมูลจะหายไป ไม่ใช่การเก็บบันทึกแบบถาวรหรือซิงค์ข้ามอุปกรณ์
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:20px;">
+      <h3>Economic Calendar Alert — เตือนก่อนข่าวสำคัญ</h3>
+      <div class="help" style="margin-top:0;">
+        เพิ่มกำหนดการข่าวสำคัญ (เช่น NFP, CPI, ประชุม Fed) ด้วยตนเอง — ระบบไม่มีการเชื่อมต่อ API ปฏิทินข่าวจริง เพราะเบราว์เซอร์เรียกเว็บปฏิทินข่าวส่วนใหญ่ตรงๆ ไม่ได้ (ติด CORS) คุณจึงต้องพิมพ์เวลาข่าวเองจากเว็บที่เชื่อถือได้ เช่น Forex Factory
+      </div>
+      <div style="display:grid; grid-template-columns:2fr 1fr auto; gap:10px; margin-top:12px; align-items:end;">
+        <div>
+          <label>ชื่อข่าว</label>
+          <input type="text" id="calEventName" placeholder="เช่น US Non-Farm Payrolls">
+        </div>
+        <div>
+          <label>วันเวลา (เวลาเครื่องคุณ)</label>
+          <input type="text" id="calEventTime" placeholder="YYYY-MM-DD HH:MM">
+        </div>
+        <button class="btn" id="calAddBtn" style="margin-top:0;">เพิ่ม</button>
+      </div>
+      <div id="calWarningBanner" style="display:none; margin-top:14px; padding:12px; border-radius:4px; border:1px solid var(--bear); background:rgba(246,70,93,.1); color:var(--bear); font-size:12.5px; font-weight:600;"></div>
+      <div class="indicator-grid" id="calListGrid" style="margin-top:14px;"></div>
+      <div class="disclaimer">
+        <b>คำเตือน:</b> รายการนี้เป็นการบันทึกด้วยมือของผู้ใช้เอง ไม่ใช่ข้อมูลข่าวจริงจากผู้ให้บริการ โปรดตรวจสอบเวลาข่าวจริงจากปฏิทินเศรษฐกิจที่น่าเชื่อถือ (เช่น Forex Factory, Investing.com) ด้วยตนเองเสมอ เวลาที่พิมพ์ผิดจะทำให้การเตือนผิดพลาดไปด้วย
+      </div>
+    </div>
   </div>
 </main>
 
@@ -397,6 +463,25 @@
   let lastCandles = [];
   const activeInd = { ma20:true, ema12:true, ema26:true, bb:true };
   const tickerPairs = ["EUR/USD","USD/JPY","GBP/USD","AUD/USD"];
+
+  // ---- New feature state ----
+  let lastRuleSignal = null;   // {label, score, pair, interval}
+  let lastAiResult = null;     // parsed AI JSON result, or null
+  let lastLoggedRuleLabel = null;
+  let calendarTimer = null;
+
+  // ---- Safe localStorage helpers (feature files run standalone in a real browser, not the claude.ai artifact sandbox) ----
+  function lsGet(key, fallback){
+    try{
+      const raw = window.localStorage.getItem(key);
+      if(raw==null) return fallback;
+      return JSON.parse(raw);
+    } catch(e){ return fallback; }
+  }
+  function lsSet(key, value){
+    try{ window.localStorage.setItem(key, JSON.stringify(value)); return true; }
+    catch(e){ return false; }
+  }
 
   // ---------------- Chart setup ----------------
   const chartOptions = {
@@ -644,6 +729,18 @@
     badge.textContent = label;
     badge.className = 'signal-badge ' + cls;
     document.getElementById('signalReasons').innerHTML = reasons.join('<br>');
+
+    lastRuleSignal = { label, score, pair, interval };
+    updateDivergenceBadge(divergence);
+
+    // Only log to the journal when the signal actually changes, to avoid flooding it on every refresh.
+    const changeKey = pair + '|' + label;
+    if(changeKey !== lastLoggedRuleLabel){
+      lastLoggedRuleLabel = changeKey;
+      const lastClose = lastCandles.length ? lastCandles[lastCandles.length-1].close : null;
+      addJournalEntry({ source:'Rule-based', pair, interval, signal:label, price:lastClose });
+    }
+    updateConfluence();
   }
 
   function atrCalc(candles, period){
@@ -1029,6 +1126,15 @@ ${parsed.fvg_zone || '-'}
 ${parsed.trade_spec || '-'}`.replace(/\n/g,'<br>');
 
         drawAiPriceLines(parsed);
+
+        lastAiResult = parsed;
+        updateConfluence();
+        addJournalEntry({
+          source: 'AI (SMC/ICT)',
+          pair, interval,
+          signal: isTrade ? ('TRADE_FOUND: ' + (parsed.direction||'-')) : 'NO_TRADE',
+          price: isTrade && !isNaN(parseFloat(parsed.entry_price)) ? parseFloat(parsed.entry_price) : (lastCandles.length ? lastCandles[lastCandles.length-1].close : null)
+        });
       } else {
         badge.textContent = 'ผลลัพธ์';
         badge.className = 'signal-badge hold';
@@ -1242,6 +1348,266 @@ ${parsed.trade_spec || '-'}`.replace(/\n/g,'<br>');
       if(lastCandles.length) render(lastCandles);
     });
   });
+
+  // ================= Session overlay =================
+  // Approximate forex trading sessions in UTC (does not auto-adjust for regional DST changes).
+  function getActiveSessions(nowUtc){
+    const h = nowUtc.getUTCHours();
+    const sessions = [];
+    if(h>=21 || h<6) sessions.push('Sydney');
+    if(h>=0 && h<9) sessions.push('Tokyo');
+    if(h>=7 && h<16) sessions.push('London');
+    if(h>=12 && h<21) sessions.push('New York');
+    const overlap = sessions.includes('London') && sessions.includes('New York');
+    return {sessions, overlap};
+  }
+  function updateSessionBadge(){
+    const el = document.getElementById('sessionBadge');
+    if(!el) return;
+    const {sessions, overlap} = getActiveSessions(new Date());
+    if(sessions.length===0){
+      el.textContent = 'Session: ปิดตลาด (ช่วงรอยต่อ)';
+      el.style.color = 'var(--muted)';
+    } else {
+      el.textContent = 'Session: ' + sessions.join(' + ') + (overlap ? ' ⚡ Overlap (ผันผวนสูง)' : '');
+      el.style.color = overlap ? 'var(--amber)' : 'var(--muted)';
+    }
+  }
+
+  // ================= Divergence badge =================
+  function updateDivergenceBadge(divergence){
+    const el = document.getElementById('divergenceBadge');
+    if(!el) return;
+    if(!divergence || (!divergence.bullish && !divergence.bearish)){
+      el.style.display = 'none';
+      return;
+    }
+    el.style.display = 'inline';
+    if(divergence.bullish){
+      el.textContent = '⚠ Bullish Divergence';
+      el.style.color = 'var(--bull)';
+    } else {
+      el.textContent = '⚠ Bearish Divergence';
+      el.style.color = 'var(--bear)';
+    }
+  }
+
+  // ================= Confluence =================
+  function updateConfluence(){
+    const badge = document.getElementById('confluenceBadge');
+    const reasons = document.getElementById('confluenceReasons');
+    if(!badge || !reasons) return;
+
+    if(!lastRuleSignal){
+      badge.textContent = 'รอข้อมูล';
+      badge.className = 'signal-badge hold';
+      reasons.textContent = 'ต้องมีทั้งสัญญาณ Rule-based (กด "เชื่อมต่อ & ดึงข้อมูล") และผล AI (กด "วิเคราะห์ด้วย AI") อย่างน้อยอย่างละ 1 ครั้ง';
+      return;
+    }
+    const ruleDir = lastRuleSignal.label==='BUY' ? 'up' : lastRuleSignal.label==='SELL' ? 'down' : null;
+
+    if(!lastAiResult){
+      badge.textContent = 'รอผล AI';
+      badge.className = 'signal-badge hold';
+      reasons.innerHTML = `Rule-based ล่าสุดให้สัญญาณ <b>${lastRuleSignal.label}</b> (คะแนน ${lastRuleSignal.score}) — ยังไม่มีผลวิเคราะห์ AI ให้เทียบ กด "วิเคราะห์ด้วย AI (SMC/ICT)" เพื่อดู confluence`;
+      return;
+    }
+    const aiDir = lastAiResult.verdict==='TRADE_FOUND' ? (lastAiResult.direction==='long' ? 'up' : lastAiResult.direction==='short' ? 'down' : null) : null;
+
+    if(ruleDir===null || aiDir===null){
+      badge.textContent = 'ไม่ชัดเจน';
+      badge.className = 'signal-badge hold';
+      reasons.innerHTML = `Rule-based: <b>${lastRuleSignal.label}</b> | AI: <b>${lastAiResult.verdict==='TRADE_FOUND' ? (lastAiResult.direction||'-') : 'NO_TRADE'}</b> — อย่างน้อยหนึ่งระบบยังไม่ให้ทิศทางชัดเจน (HOLD หรือ NO_TRADE) จึงยังไม่นับเป็น confluence`;
+      return;
+    }
+    if(ruleDir===aiDir){
+      badge.textContent = ruleDir==='up' ? 'CONFLUENCE ขาขึ้น' : 'CONFLUENCE ขาลง';
+      badge.className = 'signal-badge ' + (ruleDir==='up' ? 'buy' : 'sell');
+      reasons.innerHTML = `ทั้ง Rule-based (<b>${lastRuleSignal.label}</b>) และ AI SMC/ICT (<b>${lastAiResult.direction}</b>) ชี้ไปทิศทางเดียวกัน — มีหลายมุมมองยืนยันตรงกัน แต่ยังไม่ใช่การรับประกันผลลัพธ์ ควรตรวจสอบด้วยตาตนเองก่อนเสมอ`;
+    } else {
+      badge.textContent = 'ขัดแย้งกัน';
+      badge.className = 'signal-badge hold';
+      reasons.innerHTML = `Rule-based ให้ <b>${lastRuleSignal.label}</b> แต่ AI SMC/ICT ให้ <b>${lastAiResult.direction}</b> — สองมุมมองขัดแย้งกัน มักหมายความว่าตลาดยังไม่มีทิศทางชัดเจนพอ ควรรอสัญญาณที่สอดคล้องกันมากกว่านี้`;
+    }
+  }
+
+  // ================= Trade Journal =================
+  const JOURNAL_KEY = 'fxterminal_journal_v1';
+  function getJournal(){ return lsGet(JOURNAL_KEY, []); }
+  function saveJournal(arr){ lsSet(JOURNAL_KEY, arr); }
+
+  function addJournalEntry(entry){
+    const arr = getJournal();
+    arr.unshift(Object.assign({
+      id: Date.now() + '_' + Math.random().toString(36).slice(2,8),
+      time: Date.now(),
+      outcome: null // null | 'win' | 'loss'
+    }, entry));
+    // cap history to avoid unbounded growth
+    if(arr.length > 300) arr.length = 300;
+    saveJournal(arr);
+    renderJournal();
+  }
+
+  function markJournalOutcome(id, outcome){
+    const arr = getJournal();
+    const item = arr.find(e=>e.id===id);
+    if(item){ item.outcome = (item.outcome===outcome) ? null : outcome; saveJournal(arr); renderJournal(); }
+  }
+
+  function renderJournal(){
+    const body = document.getElementById('journalTableBody');
+    const statsGrid = document.getElementById('journalStatsGrid');
+    if(!body || !statsGrid) return;
+    const arr = getJournal();
+
+    const wins = arr.filter(e=>e.outcome==='win').length;
+    const losses = arr.filter(e=>e.outcome==='loss').length;
+    const rated = wins + losses;
+    const winRate = rated ? (wins/rated*100) : 0;
+    statsGrid.innerHTML = `
+      <div class="ind"><div class="k">บันทึกทั้งหมด</div><div class="v">${arr.length}</div></div>
+      <div class="ind"><div class="k">ให้ผลแล้ว</div><div class="v">${rated}</div></div>
+      <div class="ind"><div class="k">Win / Loss</div><div class="v">${wins} / ${losses}</div></div>
+      <div class="ind"><div class="k">Win Rate (ที่ให้ผลแล้ว)</div><div class="v" style="color:${rated ? (winRate>=50?'#0ecb81':'#f6465d') : ''}">${rated ? winRate.toFixed(1)+'%' : '—'}</div></div>
+    `;
+
+    if(arr.length===0){
+      body.innerHTML = `<tr><td colspan="6" style="padding:12px 6px; color:var(--muted);">ยังไม่มีบันทึก — สัญญาณจะถูกบันทึกอัตโนมัติเมื่อ Rule-based เปลี่ยนสัญญาณ หรือเมื่อกดวิเคราะห์ด้วย AI</td></tr>`;
+      return;
+    }
+
+    body.innerHTML = arr.slice(0,50).map(e=>{
+      const dt = new Date(e.time);
+      const timeStr = dt.toLocaleString('th-TH', {dateStyle:'short', timeStyle:'short'});
+      const priceStr = (typeof e.price === 'number') ? e.price.toFixed(5) : '—';
+      const winActive = e.outcome==='win';
+      const lossActive = e.outcome==='loss';
+      return `<tr style="border-bottom:1px solid var(--line);">
+        <td style="padding:7px 6px; color:var(--muted);">${timeStr}</td>
+        <td style="padding:7px 6px;">${e.source}</td>
+        <td style="padding:7px 6px;">${e.pair||'—'}</td>
+        <td style="padding:7px 6px;">${e.signal}</td>
+        <td style="padding:7px 6px;">${priceStr}</td>
+        <td style="padding:7px 6px; white-space:nowrap;">
+          <button data-jid="${e.id}" data-outcome="win" class="jOutcomeBtn" style="cursor:pointer; font-size:10.5px; padding:3px 7px; border-radius:3px; border:1px solid var(--bull); background:${winActive?'var(--bull)':'transparent'}; color:${winActive?'#0a0c0f':'var(--bull)'}; margin-right:4px;">Win</button>
+          <button data-jid="${e.id}" data-outcome="loss" class="jOutcomeBtn" style="cursor:pointer; font-size:10.5px; padding:3px 7px; border-radius:3px; border:1px solid var(--bear); background:${lossActive?'var(--bear)':'transparent'}; color:${lossActive?'#0a0c0f':'var(--bear)'};">Loss</button>
+        </td>
+      </tr>`;
+    }).join('');
+
+    body.querySelectorAll('.jOutcomeBtn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        markJournalOutcome(btn.dataset.jid, btn.dataset.outcome);
+      });
+    });
+  }
+
+  const journalClearBtnEl = document.getElementById('journalClearBtn');
+  if(journalClearBtnEl){
+    journalClearBtnEl.addEventListener('click', ()=>{
+      if(confirm('ล้างบันทึก Trade Journal ทั้งหมด? การกระทำนี้ย้อนกลับไม่ได้')){
+        saveJournal([]);
+        renderJournal();
+      }
+    });
+  }
+
+  // ================= Economic Calendar Alert =================
+  const CALENDAR_KEY = 'fxterminal_calendar_v1';
+  function getCalendar(){ return lsGet(CALENDAR_KEY, []); }
+  function saveCalendar(arr){ lsSet(CALENDAR_KEY, arr); }
+
+  function addCalendarEvent(){
+    const nameEl = document.getElementById('calEventName');
+    const timeEl = document.getElementById('calEventTime');
+    const name = nameEl.value.trim();
+    const timeStr = timeEl.value.trim();
+    if(!name || !timeStr){
+      alert('กรุณากรอกทั้งชื่อข่าวและวันเวลา');
+      return;
+    }
+    // Expect "YYYY-MM-DD HH:MM" in the user's local time.
+    const parsed = new Date(timeStr.replace(' ', 'T'));
+    if(isNaN(parsed.getTime())){
+      alert('รูปแบบวันเวลาไม่ถูกต้อง กรุณาใช้ YYYY-MM-DD HH:MM เช่น 2026-07-20 19:30');
+      return;
+    }
+    const arr = getCalendar();
+    arr.push({ id: Date.now()+'_'+Math.random().toString(36).slice(2,8), name, time: parsed.getTime() });
+    saveCalendar(arr);
+    nameEl.value = '';
+    timeEl.value = '';
+    renderCalendarList();
+    checkCalendarWarnings();
+  }
+
+  function removeCalendarEvent(id){
+    const arr = getCalendar().filter(e=>e.id!==id);
+    saveCalendar(arr);
+    renderCalendarList();
+    checkCalendarWarnings();
+  }
+
+  function renderCalendarList(){
+    const grid = document.getElementById('calListGrid');
+    if(!grid) return;
+    const now = Date.now();
+    // keep events up to 24h in the past so recently-passed news stays visible briefly, drop older ones
+    const arr = getCalendar().filter(e=> e.time > now - 24*3600*1000).sort((a,b)=>a.time-b.time);
+    saveCalendar(arr); // prune stale entries persistently too
+
+    if(arr.length===0){
+      grid.innerHTML = `<div class="ind" style="grid-column:1/-1; color:var(--muted);">ยังไม่มีรายการข่าวที่บันทึกไว้</div>`;
+      return;
+    }
+    grid.innerHTML = arr.map(e=>{
+      const dt = new Date(e.time);
+      const diffMin = Math.round((e.time-now)/60000);
+      const timeStr = dt.toLocaleString('th-TH', {dateStyle:'short', timeStyle:'short'});
+      const soon = Math.abs(diffMin) <= 30;
+      const label = diffMin>=0 ? `อีก ${diffMin} นาที` : `ผ่านมาแล้ว ${Math.abs(diffMin)} นาที`;
+      return `<div class="ind" style="${soon?'border-color:var(--bear);':''}">
+        <div class="k">${e.name}</div>
+        <div class="v" style="font-size:13px; color:${soon?'var(--bear)':'var(--text)'};">${timeStr}</div>
+        <div style="font-size:10.5px; color:var(--muted); margin-top:2px;">${label}</div>
+        <div style="margin-top:6px;"><button data-cid="${e.id}" class="calDelBtn" style="cursor:pointer; font-size:10px; padding:3px 7px; border-radius:3px; border:1px solid var(--line); background:transparent; color:var(--muted);">ลบ</button></div>
+      </div>`;
+    }).join('');
+
+    grid.querySelectorAll('.calDelBtn').forEach(btn=>{
+      btn.addEventListener('click', ()=> removeCalendarEvent(btn.dataset.cid));
+    });
+  }
+
+  function checkCalendarWarnings(){
+    const banner = document.getElementById('calWarningBanner');
+    if(!banner) return;
+    const now = Date.now();
+    const arr = getCalendar();
+    const soonEvents = arr.filter(e=> e.time - now > -15*60000 && e.time - now <= 30*60000);
+    if(soonEvents.length===0){
+      banner.style.display = 'none';
+      return;
+    }
+    banner.style.display = 'block';
+    banner.innerHTML = soonEvents.map(e=>{
+      const diffMin = Math.round((e.time-now)/60000);
+      const when = diffMin>=0 ? `อีก ${diffMin} นาที` : `เมื่อ ${Math.abs(diffMin)} นาทีก่อน`;
+      return `⚠ ข่าว "${e.name}" ${when} — ตลาดอาจผันผวนสูงผิดปกติ ระวังการเปิดออเดอร์ใหม่ช่วงนี้`;
+    }).join('<br>');
+  }
+
+  const calAddBtnEl = document.getElementById('calAddBtn');
+  if(calAddBtnEl) calAddBtnEl.addEventListener('click', addCalendarEvent);
+
+  // ================= Init new features =================
+  updateSessionBadge();
+  renderJournal();
+  renderCalendarList();
+  checkCalendarWarnings();
+  updateConfluence();
+  setInterval(()=>{ updateSessionBadge(); checkCalendarWarnings(); renderCalendarList(); }, 30000);
 
 })();
 </script>
